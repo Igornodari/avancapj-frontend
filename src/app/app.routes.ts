@@ -22,26 +22,6 @@ export const routes: Routes = [
 			},
 		],
 	},
-	{
-		path: 'users',
-		component: FullComponent,
-		canActivate: [AuthGuard],
-		loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule),
-	},
-	{
-		path: 'units',
-		component: FullComponent,
-		canActivate: [AuthGuard],
-		loadChildren: () =>
-			import('./pages/units/units-routing.module').then(m => m.UnitsRoutingModule),
-	},
-	{
-		path: 'system',
-		component: FullComponent,
-		canActivate: [AuthGuard],
-		loadChildren: () =>
-			import('./pages/system/system.routing.module').then(m => m.SystemRoutingModule),
-	},
 	// Rotas públicas (sem autenticação, layout em branco)
 	{
 		path: 'authentication',
