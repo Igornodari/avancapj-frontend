@@ -26,22 +26,15 @@ registerLocaleData(localePtBr, 'pt-BR', localePtBrExtra);
 export const HttpLoaderFactory = (http: HttpClient) => {
 	return new AppTranslateLoader(http, {
 		prefix: './assets/i18n/',
-		parts: [
-			'common',
-			'occupancy-map',
-			'communication',
-			'enums',
-			'facilities',
-			'finance',
-			'header',
-			'home',
-			'interactions',
-			'login',
-			'negotiations',
-			'reports',
-			'sidebar',
-			'system',
-		],
+			parts: [
+				'common',
+				'enums',
+				'header',
+				'home',
+				'login',
+				'sidebar',
+				// Removidos após limpeza: occupancy-map, communication, facilities, finance, interactions, negotiations, reports, system
+			],
 	});
 };
 
