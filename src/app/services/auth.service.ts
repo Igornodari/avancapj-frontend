@@ -14,6 +14,8 @@ import {
 	signInWithEmailAndPassword,
 	signInWithPopup,
 	signOut,
+	createUserWithEmailAndPassword,
+	updateProfile,
 } from '@angular/fire/auth';
 
 @Injectable({
@@ -131,6 +133,48 @@ export class AuthService {
 			await this.authenticationWithToken();
 			return credential;
 		});
+	}
+
+	/**
+	 * Registra novo usuário com email e senha
+	 */
+	async registerWithEmail(
+		email: string,
+		password: string,
+		firstName: string,
+		lastName: string
+	) {
+		try {
+			// Criar usuário no Firebase Auth
+			const userCredential = await createUserWithEmailAndPassword(
+				this.auth,
+				email,
+				password
+			);
+
+			// Atualizar perfil com nome
+			if (userCredential.user) {
+				await updateProfile(userCredential.user, {
+					displayName: `${firstName} ${lastName}`,
+				});
+			}
+
+			// Fazer logout após criar conta (usuário deve fazer login)
+			await this.logoutFirebase();
+
+			return userCredential;
+		} catch (error: any) {
+			if (error.code === 'auth/email-already-in-use') {
+				this._snackBar.error('Este email já está cadastrado!');
+			} else if (error.code === 'auth/weak-password') {
+				this._snackBar.error('Senha muito fraca! Use pelo menos 6 caracteres.');
+			} else if (error.code === 'auth/invalid-email') {
+				this._snackBar.error('Email inválido!');
+			} else {
+				this._snackBar.error('Erro ao criar conta: ' + error.message);
+			}
+			throw error;
+		}
 	}
 
 	forgotPassword(email: string) {

@@ -82,10 +82,21 @@
 								<a class="text-primary f-w-600 text-decoration-none m-l-auto f-s-14"
 									[routerLink]="['/authentication/forgot-password']">{{ 'LOGIN.FORGOT_PASSWORD_LABEL' | translate }}</a>
 							</div>
-							<button matButton="filled" color="primary" class="w-100" [disabled]="!form.valid">
-								{{ 'LOGIN.BUTTON' | translate }}
-							</button>
-						</form>
+						<button matButton="filled" color="primary" class="w-100" [disabled]="!form.valid">
+							{{ 'LOGIN.BUTTON' | translate }}
+						</button>
+						
+						<!-- Link para Registro -->
+						<div class="text-center m-t-16">
+							<span class="text-muted">Não tem uma conta? </span>
+							<a 
+								[routerLink]="['/authentication/register']" 
+								class="text-primary f-w-600 text-decoration-none"
+							>
+								Criar Conta
+							</a>
+						</div>
+					</form>
 					</div>
 				</div>
 			</div>

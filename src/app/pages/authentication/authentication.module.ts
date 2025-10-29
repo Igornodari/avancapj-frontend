@@ -11,6 +11,7 @@ import { AppErrorComponent } from './error/error.component';
 import { LoginComponent } from './login/login.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { QuestionnaireComponent } from './questionnaire/questionnaire.component';
+import { RegisterComponent } from './register/register.component';
 
 export const AuthenticationRoutes: Routes = [
 	{
@@ -36,6 +37,10 @@ export const AuthenticationRoutes: Routes = [
 				path: 'questionnaire',
 				component: QuestionnaireComponent,
 			},
+			{
+				path: 'register',
+				component: RegisterComponent,
+			},
 		],
 	},
 ];
@@ -55,6 +60,7 @@ export const AuthenticationRoutes: Routes = [
 		LoginComponent,
 		ForgotPasswordComponent,
 		QuestionnaireComponent,
+		RegisterComponent,
 	],
 })
 export class AuthenticationModule {}
