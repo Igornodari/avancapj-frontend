@@ -18,8 +18,9 @@ yarn-error.log*
 .env
 .env.local
 .env.*.local
-src/environments/environment.prod.ts
-src/environments/environment.ts
+# Permitir versionamento dos arquivos de environment (com valores de desenvolvimento)
+# src/environments/environment.prod.ts
+# src/environments/environment.ts
 
 # IDE
 .vscode/
