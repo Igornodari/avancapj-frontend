@@ -49,6 +49,16 @@ export class AuthService {
 		return this.isAuthenticated;
 	}
 
+	/**
+	 * Verifica se o usuário está logado
+	 * Checa se existe token e usuário no localStorage
+	 */
+	isLoggedIn(): boolean {
+		const token = this.localStorageService.getItem(LOCAL_STORAGE.TOKEM);
+		const user = this.localStorageService.getItem(LOCAL_STORAGE.USER);
+		return !!(token && user);
+	}
+
 	get $unit() {
 		return this.unit.pipe(
 			distinctUntilChanged(),
