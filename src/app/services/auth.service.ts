@@ -107,19 +107,23 @@ export class AuthService {
 		});
 	}
 
-	loginWithEmail(email: string, password: string) {
-		return signInWithEmailAndPassword(this.auth, email, password)
-			.then(async userCredential => {
-				await this.authenticationWithToken();
-				// ...
-			})
-			.catch(error => {
-				if (error.code == 'auth/user-not-found') {
-					this._snackBar.error('Não autorizado: Usuario não cadastrado !');
-				} else if (error.code == 'auth/wrong-password') {
-					this._snackBar.error('Não autorizado: Credenciais inválidas!');
-				}
-			});
+	async loginWithEmail(email: string, password: string) {
+		try {
+			const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+			await this.authenticationWithToken();
+			return userCredential;
+		} catch (error: any) {
+			if (error.code === 'auth/user-not-found') {
+				this._snackBar.error('Não autorizado: Usuário não cadastrado!');
+			} else if (error.code === 'auth/wrong-password') {
+				this._snackBar.error('Não autorizado: Credenciais inválidas!');
+			} else if (error.code === 'auth/invalid-credential') {
+				this._snackBar.error('Credenciais inválidas!');
+			} else {
+				this._snackBar.error('Erro ao fazer login: ' + error.message);
+			}
+			throw error;
+		}
 	}
 	loginProviderGoogle() {
 		return signInWithPopup(this.auth, this.googleProvider).then(async result => {
