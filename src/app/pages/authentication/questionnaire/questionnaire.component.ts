@@ -128,12 +128,13 @@ export class QuestionnaireComponent implements OnInit {
     let answer: string | string[];
 
     if (this.currentQuestion.type === 'multiple') {
-      answer = [];
+      const multipleAnswers: string[] = [];
       this.multipleAnswersArray.value.forEach((selected: boolean, index: number) => {
         if (selected && this.currentQuestion?.options) {
-          answer.push(this.currentQuestion.options[index].id);
+          multipleAnswers.push(this.currentQuestion.options[index].id);
         }
       });
+      answer = multipleAnswers;
     } else {
       answer = this.form.get('answer')?.value;
     }
