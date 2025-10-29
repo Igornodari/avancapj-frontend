@@ -17,7 +17,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { AuthService } from 'src/app/services/auth.service';
 import { Unit, User } from 'src/app/shared/types';
 import { LanguageComponent } from './language.component';
-import { SelectUnitsComponent } from './select-units.component';
+// import { SelectUnitsComponent } from './select-units.component'; // Removido - módulo units deletado
 import { profiledd, Notifications } from './header.data';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { MaterialModule } from 'src/app/material.module';
@@ -36,7 +36,7 @@ import { TranslateModule } from '@ngx-translate/core';
     NgScrollbarModule,
     MaterialModule,
     LanguageComponent,
-    SelectUnitsComponent,
+    // SelectUnitsComponent, // Removido - módulo units deletado
     NotificationItemComponent
 ]
 })
