@@ -64,7 +64,7 @@ export class QuestionnaireComponent implements OnInit {
 
   loadQuestions() {
     this.loading = true;
-    this.requestService.get('questionnaire/questions').subscribe({
+    this.requestService.get('core/questionnaire/questions').subscribe({
       next: (response: any) => {
         this.questions = response.questions;
         this.loading = false;
@@ -183,7 +183,7 @@ export class QuestionnaireComponent implements OnInit {
 
   submitQuestionnaire() {
     this.loading = true;
-    this.requestService.post('questionnaire/submit', { responses: this.responses }).subscribe({
+    this.requestService.post('core/questionnaire/submit', { responses: this.responses }).subscribe({
       next: (response: any) => {
         this.snackBar.success('Questionário enviado com sucesso!');
         this.loading = false;

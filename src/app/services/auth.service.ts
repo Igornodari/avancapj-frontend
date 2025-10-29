@@ -256,7 +256,7 @@ export class AuthService {
 
 	private checkAndRedirect() {
 		// Verificar se o usuário completou o questionário
-		this._requestService.get('questionnaire/status').subscribe({
+		this._requestService.get('core/questionnaire/status').subscribe({
 			next: (status: any) => {
 				if (!status.completed) {
 					this.router.navigate(['/authentication/questionnaire']);

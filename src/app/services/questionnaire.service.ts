@@ -23,11 +23,11 @@ export class QuestionnaireService {
   constructor(private requestService: RequestService) {}
 
   getQuestionnaireStatus(): Observable<QuestionnaireStatus> {
-    return this.requestService.get('questionnaire/status');
+    return this.requestService.get('core/questionnaire/status');
   }
 
   getUserProfile(): Observable<UserProfile> {
-    return this.requestService.get('questionnaire/profile');
+    return this.requestService.get('core/questionnaire/profile');
   }
 
   hasCompletedQuestionnaire(): Promise<boolean> {
