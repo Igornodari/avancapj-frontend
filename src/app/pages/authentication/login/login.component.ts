@@ -65,12 +65,16 @@ export class LoginComponent {
 	async submit() {
 		if (this.form.invalid) return;
 		this.loading = true;
-		if (this.admin) {
-			(await this.authService.loginDev(this.f['username'].value, this.f['password'].value))
-				.add(() => (this.loading = false));
-		} else {
-			this.authService.loginWithEmail(this.f['username'].value, this.f['password'].value)
-				.finally(() => (this.loading = false));
+		try {
+			if (this.admin) {
+				await this.authService.loginDev(this.f['username'].value, this.f['password'].value);
+			} else {
+				await this.authService.loginWithEmail(this.f['username'].value, this.f['password'].value);
+			}
+		} catch (error) {
+			console.error('Erro no login:', error);
+		} finally {
+			this.loading = false;
 		}
 	}
 }
