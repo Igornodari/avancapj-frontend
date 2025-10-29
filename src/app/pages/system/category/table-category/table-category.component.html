@@ -1,0 +1,98 @@
+<div class="row m-b-20">
+	<div class="col-6 d-flex">
+		<!--
+    <button class="m-x-10 m-t-5" [disabled]="loading" matButton="outlined" color="accent">
+      {{ 'DOWNLOAD_EXCEL' | translate }}
+      <mat-icon>download</mat-icon>
+    </button>
+    -->
+	</div>
+	<div class="col-6 d-flex flex-row-reverse">
+		<button
+			[matBadge]="filteredCount"
+			matBadgeOverlap="true"
+			class="m-x-10"
+			mat-mini-fab
+			color="accent"
+			(click)="openDialogFilter()"
+			[matTooltip]="'FILTER' | translate"
+		>
+			<mat-icon>filter_list</mat-icon>
+		</button>
+		<button
+			class="m-x-10"
+			mat-mini-fab
+			(click)="openDialog()"
+			color="primary"
+			matTooltip="{{ 'REGISTER' | translate }}"
+		>
+			<mat-icon>add</mat-icon>
+		</button>
+	</div>
+</div>
+
+<mat-card class="cardWithShadow boxed">
+	<mat-card-content>
+		<div class="main-container m-t-2">
+			@if (loading) {
+			<app-loading></app-loading>
+			}
+
+			<div class="table-responsive">
+				<table
+					mat-table
+					[dataSource]="dataSource"
+					class="main-table"
+					matSort
+					matSortActive="createdAt"
+					matSortDisableClear
+					matSortDirection="desc"
+				>
+					<ng-container matColumnDef="code">
+						<th mat-header-cell *matHeaderCellDef>{{ 'NUMBER' | translate }}</th>
+						<td mat-cell *matCellDef="let row">{{ row.code }}</td>
+					</ng-container>
+
+					<ng-container matColumnDef="name">
+						<th mat-header-cell *matHeaderCellDef>{{ 'NAME' | translate }}</th>
+						<td mat-cell *matCellDef="let row">{{ row.name }}</td>
+					</ng-container>
+
+					<ng-container matColumnDef="tool">
+						<th mat-header-cell *matHeaderCellDef>{{ 'CATEGORY' | translate }}</th>
+						<td mat-cell *matCellDef="let row">{{ row.tool | translate }}</td>
+					</ng-container>
+
+					<ng-container matColumnDef="visibilityIcon">
+						<th mat-header-cell *matHeaderCellDef>{{ 'ACTIONS' | translate }}</th>
+						<td id="visibility-icon" mat-cell *matCellDef="let row">
+							<button
+								mat-icon-button
+								color="primary"
+								aria-label="visibility icon"
+								(click)="openDialog(row)"
+							>
+								<mat-icon>visibility</mat-icon>
+							</button>
+						</td>
+					</ng-container>
+
+					<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+					<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+				</table>
+
+				@if (!dataSource.data.length) {
+				<div class="rate-limit-reached">
+					{{ 'NO_RESULTS' | translate }}
+				</div>
+				}
+			</div>
+
+			<mat-paginator
+				[length]="resultsLength"
+				[pageSize]="10"
+				[pageSizeOptions]="pageSizeOptions"
+			></mat-paginator>
+		</div>
+	</mat-card-content>
+</mat-card>

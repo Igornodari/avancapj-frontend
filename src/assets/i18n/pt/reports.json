@@ -1,0 +1,59 @@
+{
+	"REPORTS": {
+		"OPERATIONAL": {
+			"REPORTS_CANCEL": {
+				"BREAD_CRUMB_TITLE": "Cancelamento de Contratos"
+			},
+			"REPORTS_RENEWAL": {
+				"BREAD_CRUMB_TITLE": "Renovação de Contratos"
+			}
+		},
+		"FINANCIAL": {
+			"ACCOUNT_RECEIVABLE": {
+				"BREAD_CRUMB_TITLE": "Faturamento de Unidade"
+			},
+			"FP&A": {
+				"BREAD_CRUMB_TITLE": "OPEX de Unidades"
+			}
+		},
+		"RECYCLING": {
+			"BREAD_CRUMB_TITLE": "Motivos de descarte"
+		},
+		"COMMERCIAL": {
+			"BREAD_CRUMB_TITLE": "Salmon Run",
+			"LEAD_SCORE": {
+				"BREAD_CRUMB_TITLE": "Lead Score"
+			}
+		},
+		"FACILITIES": {
+			"BREAD_CRUMB_TITLE": "Gestão: Consumos, Chamados e Camas"
+		},
+		"STUDIES_AND_FACILITIES": {
+			"FOREIGN_ANALYSIS": {
+				"BREAD_CRUMB_TITLE": "Analise de Estrangeiros"
+			},
+			"CLIENTS_MAPPING": {
+				"BREAD_CRUMB_TITLE": "Mapeamento de Clientes"
+			},
+			"EVENTS_DISCLOSURE": {
+				"BREAD_CRUMB_TITLE": "Eventos e Divulgação"
+			},
+			"SURVEY_AND_OFFER": {
+				"BREAD_CRUMB_TITLE": "Levantamento Oferta PBSA"
+			},
+			"PARTNERSHIP_OPPORTUNITIES": {
+				"BREAD_CRUMB_TITLE": "Oportunidade de Parcerias"
+			}
+		},
+		"STANDARDIZATION": {
+			"NAMES_STANDARDIZATION": {
+				"BREAD_CRUMB_TITLE": "Padronização de Nomeclatura"
+			}
+		},
+		"MAINTENANCE_AND_INFRA": {
+			"VISUAL_MANAGER": {
+				"BREAD_CRUMB_TITLE": "Gestão à vista"
+			}
+		}
+	}
+}

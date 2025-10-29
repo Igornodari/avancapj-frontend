@@ -1,0 +1,10 @@
+{
+  "gcm_sender_id": "16391360294",
+  "name": "AvançaPJ admin",
+  "short_name": "Admin",
+  "theme_color": "#f39f21",
+  "background_color": "#f3ac21",
+  "display": "browser",
+  "scope": "/",
+  "start_url": "/"
+}

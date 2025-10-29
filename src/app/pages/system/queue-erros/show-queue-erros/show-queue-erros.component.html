@@ -1,0 +1,18 @@
+<mat-dialog-content>
+	<div class="info-group">
+		<div><strong>Erro:</strong> {{ data.error || '-' }}</div>
+		<div><strong>CID:</strong> {{ data.cid || '-' }}</div>
+		<div><strong>Função:</strong> {{ data.function || '-' }}</div>
+	</div>
+	<div class="json-header">
+		<h3>Body JSON</h3>
+		<button mat-icon-button (click)="copyJson()" [matTooltip]="'Copiar JSON'">
+			<mat-icon>content_copy</mat-icon>
+		</button>
+	</div>
+	<ngx-json-viewer [json]="data.body" [expanded]="false"></ngx-json-viewer>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+	<button mat-button mat-dialog-close>Fechar</button>
+</mat-dialog-actions>

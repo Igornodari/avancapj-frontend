@@ -1,0 +1,51 @@
+{
+	"SYSTEM": {
+		"CATEGORIES": {
+			"ITEMS": {
+				"TABLE": {
+					"TITLE": "Categories Table"
+				},
+				"FILTER": {
+					"SELECT": {
+						"MAINTENANCE": "Maintenance",
+						"INVOICE": "Invoice",
+						"TICKET": "Ticket",
+						"FINES": "Fines",
+						"DEMAGE_DEPOSIT_REFUND": "Damage Deposit Refund",
+						"TYPOLOGY": "Typology",
+						"PURCHASE_ORDER": "Purchase Order",
+						"OCCUPANCY": "Occupancy",
+						"SALES_MIRROR": "Sales Mirror",
+						"SUBSCRIPTION": "Subscription",
+						"APARTMENT": "Apartment",
+						"REPORTS": "Reports",
+						"INVOICES_INITIAL": "Initial Invoices",
+						"OCCUPANCY_CHECKLIST": "Occupancy Checklist"
+					}
+				}
+			},
+			"GROUP": {
+				"TABLE": {
+					"TITLE": "Categories Group"
+				}
+			}
+		},
+		"PERMISSIONS": {
+			"TITLE": "Permissions"
+		},
+		"QUEUE_ERRORS": {
+			"TABLE": {
+				"TITLE": "Queue Error",
+				"QUEUE": "Queue",
+				"CID": "CID",
+				"ERROR": "Error"
+			},
+			"DIALOG": {
+				"DIALOG_ERROR": {
+					"TITLE": "Queue Errors",
+					"DESCRIPTION": "Would you like to resend to the queue?"
+				}
+			}
+		}
+	}
+}

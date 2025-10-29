@@ -1,0 +1,33 @@
+import { Apartment } from '../../../pages/apartment/apartment.type';
+
+export const mockApartment: Apartment = {
+	id: '',
+	createdAt: '',
+	updatedAt: '',
+	code: '',
+	zohoId: '',
+	status: '',
+	statusStyle: undefined,
+	floor: '',
+	number: '',
+	bed: '',
+	observations: '',
+	releaseDate: '',
+	unit: undefined,
+	occupancyCurrent: [],
+	occupancyNext: [],
+	occupancy: [],
+	situation: '',
+	class: '',
+	typology: {
+		id: '',
+		abbreviation: '',
+		category: '',
+		name: '',
+		isActive: false,
+		unit: undefined,
+		details: '',
+		apartmentsCount: 0,
+		items: []
+	}
+};

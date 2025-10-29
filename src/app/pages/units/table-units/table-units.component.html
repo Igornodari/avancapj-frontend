@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-12 col-sm-2 col-lg-2 d-flex"></div>
+  <div class="col-6 col-sm-10 col-lg-10 d-flex flex-row-reverse m-b-20">
+    <button class="m-x-10" mat-mini-fab color="primary" aria-label="Novo" matTooltip="Criar"
+      (click)="openDialogUpsert()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
+
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <div class="main-container m-t-2">
+      @if (loading) {
+      <app-loading></app-loading>
+      }
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" class="main-table" matSort matSortActive="hotelCode"
+          matSortDisableClear matSortDirection="desc">
+          <ng-container matColumnDef="hotelCode">
+            <th mat-sort-header="hotelCode" mat-header-cell *matHeaderCellDef>
+              {{ 'HOME.UNITS.LABEL.UNIT_CODE' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.hotelCode }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-sort-header="name" mat-header-cell *matHeaderCellDef>
+              {{ 'NAME' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let row" class="f-w-600">
+              {{ row.name }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="opening">
+            <th mat-sort-header="opening" mat-header-cell *matHeaderCellDef>
+              {{ 'HOME.UNITS.LABEL.OPENING' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.opening ? row.opening : ('NOT_PROVIDED' | translate) }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="closure">
+            <th mat-sort-header="closure" mat-header-cell *matHeaderCellDef>
+              {{ 'HOME.UNITS.LABEL.CLOSURE' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.closure ? row.closure : ('NOT_PROVIDED' | translate) }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="createdAt">
+            <th mat-sort-header="createdAt" mat-header-cell *matHeaderCellDef>
+              {{ 'CREATED_AT' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              {{ row.createdAt | date : 'short' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <th mat-sort-header="isActive" mat-header-cell *matHeaderCellDef>
+              {{ 'STATUS' | translate }}
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <app-status [status]="row.statusStyle"></app-status>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="visibilityIcon">
+            <th mat-header-cell *matHeaderCellDef>
+              {{ 'ACTIONS' | translate }}
+            </th>
+            <td id="visibility-icon" mat-cell *matCellDef="let row">
+              <button mat-icon-button color="primary" [routerLink]="['/units', row.id]" [state]="row"
+                aria-label="visibility icon">
+                <mat-icon class="material-icons-outlined">visibility</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        @if (!dataSource.data.length) {
+        <div class="rate-limit-reached">
+          {{ 'NO_RESULTS' | translate }}
+        </div>
+        }
+      </div>
+      <mat-paginator [length]="resultsLength" [pageSize]="10" [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

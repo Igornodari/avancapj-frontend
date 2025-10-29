@@ -1,0 +1,22 @@
+{
+  "projects": {
+    "default": "avancapj-d2395"
+  },
+  "targets": {
+    "YOUR_FIREBASE_PROJECT_ID": {
+      "hosting": {
+        "web": [
+          "avancapj-d2395"
+        ]
+      }
+    },
+    "avancapj-d2395": {
+      "hosting": {
+        "admin-stage": [
+          "avancapj-d2395"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

@@ -1,0 +1,53 @@
+{
+	"REPORTS": {
+		"OPERATIONAL": {
+			"REPORTS_CANCEL": {
+				"BREAD_CRUMB_TITLE": "Contract Cancellation"
+			},
+			"REPORTS_RENEWAL": {
+				"BREAD_CRUMB_TITLE": "Contract Renewal"
+			}
+		},
+		"FINANCIAL": {
+			"ACCOUNT_RECEIVABLE": {
+				"BREAD_CRUMB_TITLE": "Unit Revenue"
+			},
+			"FP&A": {
+				"BREAD_CRUMB_TITLE": "Unit OPEX"
+			}
+		},
+		"RECYCLING": {
+			"BREAD_CRUMB_TITLE": "Reasons for Discard"
+		},
+		"FACILITIES": {
+			"BREAD_CRUMB_TITLE": "Management: Consumptions, Requests, and Beds"
+		},
+		"STUDIES_AND_FACILITIES": {
+			"FOREIGN_ANALYSIS": {
+				"BREAD_CRUMB_TITLE": "Foreign Analysis"
+			},
+			"CLIENTS_MAPPING": {
+				"BREAD_CRUMB_TITLE": "Clients Mapping"
+			},
+			"EVENTS_DISCLOSURE": {
+				"BREAD_CRUMB_TITLE": "Events and Disclosure"
+			},
+			"SURVEY_AND_OFFER": {
+				"BREAD_CRUMB_TITLE": "PBSA Offer Survey"
+			},
+			"PARTNERSHIP_OPPORTUNITIES": {
+				"BREAD_CRUMB_TITLE": "Partnership Opportunities"
+			}
+		},
+		"STANDARDIZATION": {
+			"NAMES_STANDARDIZATION": {
+				"BREAD_CRUMB_TITLE": "Nomenclature Standardization"
+			}
+		},
+		"MAINTENANCE_AND_INFRA": {
+			"VISUAL_MANAGER": {
+				"BREAD_CRUMB_TITLE": "Visual Management"
+			}
+		}
+	}
+}
