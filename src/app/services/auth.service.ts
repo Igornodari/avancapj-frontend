@@ -145,6 +145,8 @@ export class AuthService {
 		lastName: string
 	) {
 		try {
+			console.log('Iniciando cadastro...', { email, firstName, lastName });
+			
 			// Criar usuário no Firebase Auth
 			const userCredential = await createUserWithEmailAndPassword(
 				this.auth,
@@ -152,18 +154,24 @@ export class AuthService {
 				password
 			);
 
+			console.log('Usuário criado no Firebase:', userCredential.user.uid);
+
 			// Atualizar perfil com nome
 			if (userCredential.user) {
 				await updateProfile(userCredential.user, {
 					displayName: `${firstName} ${lastName}`,
 				});
+				console.log('Perfil atualizado com nome:', `${firstName} ${lastName}`);
 			}
 
 			// Fazer logout após criar conta (usuário deve fazer login)
-			await this.logoutFirebase();
+			await signOut(this.auth);
+			console.log('Logout realizado. Usuário deve fazer login.');
 
 			return userCredential;
 		} catch (error: any) {
+			console.error('Erro no cadastro:', error);
+			
 			if (error.code === 'auth/email-already-in-use') {
 				this._snackBar.error('Este email já está cadastrado!');
 			} else if (error.code === 'auth/weak-password') {

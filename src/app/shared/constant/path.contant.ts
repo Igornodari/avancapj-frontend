@@ -3,7 +3,7 @@ export const BRASIL_API = 'https://brasilapi.com.br/api/';
 export const URI_PATH = {
 	CORE: {
 		AUTH: {
-			MAIN: 'core/auth/',
+			MAIN: 'core/auth',
 			DEV: 'core/auth/dev',
 			REFRESH: 'core/auth/login/refresh',
 			FORGOT_PASSWORD: 'core/auth/forgot-password',
