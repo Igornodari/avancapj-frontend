@@ -1,0 +1,282 @@
+/* home.component.scss */
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  &__left {
+    min-width: 260px;
+  }
+
+  &__right {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+}
+
+.dot {
+  margin: 0 8px;
+  opacity: 0.6;
+}
+
+.search {
+  width: min(420px, 80vw);
+}
+
+.cta {
+  height: 44px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.muted {
+  opacity: 0.7;
+}
+
+.small {
+  font-size: 12px;
+}
+
+.onboarding {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 16px;
+  align-items: start;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.stepBtn {
+  height: 34px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.6fr 0.9fr;
+  gap: 16px;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.toolsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.toolCard {
+  border-radius: 14px;
+
+  &--locked {
+    opacity: 0.85;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__title {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-weight: 700;
+  }
+
+  &__desc {
+    margin: 0;
+    opacity: 0.75;
+  }
+
+  &__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.toolMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    opacity: 0.85;
+
+    mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.toolActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.planCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.planHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.planInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.planRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.recentList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recentItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.recentName {
+  font-weight: 600;
+}
+
+.empty,
+.emptyInline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.03);
+
+  mat-icon {
+    opacity: 0.6;
+  }
+}
+
+.categoryChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 14px;
+
+  button.active {
+    border-width: 2px;
+  }
+}
+
+/* Chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip--recommended {
+  font-weight: 600;
+}
+
+.chip--new {
+  font-weight: 600;
+}
+
+.chip--popular {
+  font-weight: 600;
+}
+
+.chip--plan {
+  font-weight: 700;
+}
+
+.w-100 {
+  width: 100%;
+}

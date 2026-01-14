@@ -1,6 +1,311 @@
-<mat-card class="cardWithShadow">
-	<mat-card-content>
-		<mat-card-title>Home</mat-card-title>
-		<mat-card-subtitle class="mat-body-1"></mat-card-subtitle>
-	</mat-card-content>
-</mat-card>
+<!-- home.component.html -->
+<div class="home">
+
+  <!-- Header -->
+  <section class="header">
+    <div class="header__left">
+      <h1 class="title">Olá, {{ profile.name }} 👋</h1>
+      <p class="subtitle">
+        Perfil: <strong>{{ profile.primaryAreaLabel }}</strong>
+        <span class="dot">•</span>
+        Objetivo: <strong>{{ profile.primaryGoalLabel }}</strong>
+      </p>
+    </div>
+
+    <div class="header__right">
+      <mat-form-field appearance="outline" class="search">
+        <mat-label>Buscar ferramenta</mat-label>
+        <input matInput [(ngModel)]="searchTerm" placeholder="Ex: contrato, imposto, proposta..." />
+        <button
+          mat-icon-button
+          matSuffix
+          aria-label="Limpar"
+          *ngIf="searchTerm"
+          (click)="searchTerm = ''"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" class="cta" (click)="openAllTools()">
+        Ver todas
+      </button>
+    </div>
+  </section>
+
+  <!-- Comece por aqui -->
+  <mat-card class="cardWithShadow">
+    <mat-card-content class="onboarding">
+      <div class="onboarding__left">
+        <h2 class="sectionTitle">Comece por aqui</h2>
+        <p class="muted">Complete os passos para aproveitar melhor a plataforma.</p>
+      </div>
+
+      <div class="onboarding__right">
+        <div class="steps">
+          <div class="step" *ngFor="let step of onboardingSteps">
+            <mat-checkbox [(ngModel)]="step.done" color="primary">
+              {{ step.label }}
+            </mat-checkbox>
+            <button
+              mat-stroked-button
+              class="stepBtn"
+              *ngIf="step.cta"
+              (click)="step.action?.()"
+            >
+              {{ step.cta }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="grid">
+
+    <!-- Recomendadas -->
+    <mat-card class="cardWithShadow">
+      <mat-card-content>
+        <div class="sectionHeader">
+          <div>
+            <h2 class="sectionTitle">Recomendadas para você</h2>
+            <p class="muted">Baseado no seu perfil e objetivos.</p>
+          </div>
+        </div>
+
+        <div class="toolsGrid">
+          <ng-container *ngFor="let tool of filteredRecommendedTools">
+            <mat-card class="toolCard" [class.toolCard--locked]="isLocked(tool)">
+              <mat-card-content class="toolCard__content">
+                <div class="toolCard__top">
+                  <div class="toolCard__title">
+                    <span>{{ tool.name }}</span>
+                    <mat-chip-set *ngIf="tool.badges?.length" class="chips">
+                      <mat-chip *ngFor="let b of tool.badges" [ngClass]="'chip--' + b.type">
+                        {{ b.label }}
+                      </mat-chip>
+                    </mat-chip-set>
+                  </div>
+                  <p class="toolCard__desc">{{ tool.description }}</p>
+                </div>
+
+                <div class="toolCard__bottom">
+                  <div class="toolMeta">
+                    <span class="meta">
+                      <mat-icon>sell</mat-icon>
+                      {{ tool.categoryLabel }}
+                    </span>
+                    <span class="meta">
+                      <mat-icon>workspace_premium</mat-icon>
+                      {{ tool.planRequired }}
+                    </span>
+                  </div>
+
+                  <div class="toolActions">
+                    <button
+                      mat-flat-button
+                      color="primary"
+                      *ngIf="!isLocked(tool) && tool.status === 'ACTIVE'"
+                      (click)="openTool(tool)"
+                    >
+                      Abrir
+                    </button>
+
+                    <button
+                      mat-stroked-button
+                      *ngIf="tool.status === 'SOON'"
+                      (click)="joinWaitlist(tool)"
+                    >
+                      Em breve • Entrar na lista
+                    </button>
+
+                    <button
+                      mat-flat-button
+                      color="accent"
+                      *ngIf="isLocked(tool)"
+                      (click)="upgrade()"
+                    >
+                      Fazer upgrade
+                    </button>
+
+                    <button mat-button (click)="viewDetails(tool)">Detalhes</button>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </ng-container>
+
+          <div class="empty" *ngIf="!filteredRecommendedTools.length">
+            <mat-icon>search_off</mat-icon>
+            <div>
+              <strong>Nenhuma ferramenta encontrada</strong>
+              <div class="muted">Tente ajustar a busca ou ver todas as ferramentas.</div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Coluna lateral -->
+    <div class="side">
+
+      <!-- Plano -->
+      <mat-card class="cardWithShadow">
+        <mat-card-content class="planCard">
+          <div class="planHeader">
+            <h2 class="sectionTitle">Seu plano</h2>
+            <mat-chip-set>
+              <mat-chip class="chip--plan">{{ plan.name }}</mat-chip>
+            </mat-chip-set>
+          </div>
+
+          <div class="planInfo">
+            <div class="planRow">
+              <span class="muted">Acesso a</span>
+              <strong>{{ plan.toolsAccessLabel }}</strong>
+            </div>
+            <div class="planRow">
+              <span class="muted">Suporte</span>
+              <strong>{{ plan.supportLabel }}</strong>
+            </div>
+          </div>
+
+          <button mat-flat-button color="primary" (click)="upgrade()" *ngIf="plan.canUpgrade">
+            Upgrade do plano
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Recentes -->
+      <mat-card class="cardWithShadow">
+        <mat-card-content>
+          <div class="sectionHeader">
+            <h2 class="sectionTitle">Recentes</h2>
+          </div>
+
+          <div class="recentList" *ngIf="recentTools.length; else emptyRecent">
+            <button
+              mat-stroked-button
+              class="recentItem"
+              *ngFor="let r of recentTools"
+              (click)="openTool(r)"
+            >
+              <span class="recentName">{{ r.name }}</span>
+              <span class="muted small">{{ r.lastOpenedLabel }}</span>
+            </button>
+          </div>
+
+          <ng-template #emptyRecent>
+            <div class="emptyInline">
+              <mat-icon>history</mat-icon>
+              <div class="muted">Você ainda não usou nenhuma ferramenta.</div>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Sugestão -->
+      <mat-card class="cardWithShadow">
+        <mat-card-content class="suggestCard">
+          <h2 class="sectionTitle">Faltou uma ferramenta?</h2>
+          <p class="muted">Conte o que você precisa e nós priorizamos.</p>
+
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Sugestão</mat-label>
+            <textarea
+              matInput
+              rows="3"
+              [(ngModel)]="suggestion"
+              placeholder="Ex: gerador de contrato de prestação de serviço..."
+            ></textarea>
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" (click)="sendSuggestion()" [disabled]="!suggestion?.trim()">
+            Enviar sugestão
+          </button>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+
+  <!-- Categorias -->
+  <mat-card class="cardWithShadow">
+    <mat-card-content>
+      <div class="sectionHeader">
+        <div>
+          <h2 class="sectionTitle">Ferramentas por categoria</h2>
+          <p class="muted">Explore tudo que está disponível.</p>
+        </div>
+      </div>
+
+      <div class="categoryChips">
+        <button
+          mat-stroked-button
+          [class.active]="selectedCategory === 'ALL'"
+          (click)="selectedCategory = 'ALL'"
+        >
+          Todas
+        </button>
+
+        <button
+          mat-stroked-button
+          *ngFor="let c of categories"
+          [class.active]="selectedCategory === c.key"
+          (click)="selectedCategory = c.key"
+        >
+          {{ c.label }}
+        </button>
+      </div>
+
+      <div class="toolsGrid">
+        <mat-card
+          class="toolCard"
+          *ngFor="let tool of filteredToolsByCategory"
+          [class.toolCard--locked]="isLocked(tool)"
+        >
+          <mat-card-content class="toolCard__content">
+            <div class="toolCard__top">
+              <div class="toolCard__title">
+                <span>{{ tool.name }}</span>
+              </div>
+              <p class="toolCard__desc">{{ tool.description }}</p>
+            </div>
+
+            <div class="toolCard__bottom">
+              <div class="toolMeta">
+                <span class="meta">
+                  <mat-icon>sell</mat-icon>
+                  {{ tool.categoryLabel }}
+                </span>
+                <span class="meta">
+                  <mat-icon>workspace_premium</mat-icon>
+                  {{ tool.planRequired }}
+                </span>
+              </div>
+
+              <div class="toolActions">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  *ngIf="!isLocked(tool) && tool.status === 'ACTIVE'"
+                  (click)="openTool(tool)"
+                >
+                  Abrir
+                </button>
+
+                <button mat-stroked-button *ngIf="tool.status === 'SOON'" (click)="joinWaitlist(tool)">
+                  Em breve
+                </button>
+
+                <button mat-flat-button color="accent" *ngIf="isLocked(tool)" (click)="upgrade()">
+                  Upgrade
+                </button>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -41,6 +41,8 @@ export class AuthService {
 			this.getUser();
 		}
 		this.$user.subscribe(user => (this.currentUser = user));
+		this.hydrateFromStorage();
+
 	}
 
 	get token() {
@@ -75,28 +77,45 @@ export class AuthService {
 		);
 	}
 
-async authenticationWithToken() {
-  const idToken = await this.auth.currentUser?.getIdToken();
-  if (!idToken) {
-    this._snackBar.error('Acesso negado');
-    return;
-  }
+	async authenticationWithToken() {
+		const idToken = await this.auth.currentUser?.getIdToken();
+		if (!idToken) {
+			this._snackBar.error('Acesso negado');
+			return;
+		}
 
-  return new Promise<void>((resolve, reject) => {
-    this._requestService.post(URI_PATH.CORE.AUTH.MAIN, { token: idToken }).subscribe({
-      next: (res) => {
-        this.setAuth(res);
-        this.setUnit(res.user.unit);
-        this.checkAndRedirect();
-        resolve();
-      },
-      error: (e) => {
-        this.logoutFirebase();
-        this._snackBar.error('Acesso negado');
-        reject(e);
-      },
-    });
-  });
+
+
+		return new Promise<void>((resolve, reject) => {
+			this._requestService.post(URI_PATH.CORE.AUTH.MAIN, { token: idToken }).subscribe({
+				next: (res) => {
+					this.setAuth(res);
+					console.log('[auth] res=', res);
+					console.log('[auth] saved token=', this.localStorageService.getItem(LOCAL_STORAGE.TOKEM));
+					console.log('[auth] saved user=', this.localStorageService.getItem(LOCAL_STORAGE.USER));
+					this.setUnit(res.user.unit);
+					this.checkAndRedirect();
+					resolve();
+
+
+				},
+				error: (e) => {
+					this.logoutFirebase();
+					this._snackBar.error('Acesso negado');
+					reject(e);
+				},
+			});
+		});
+	}
+
+	private hydrateFromStorage() {
+  const token = this.localStorageService.getItem(LOCAL_STORAGE.TOKEM);
+  const user = this.localStorageService.getItem(LOCAL_STORAGE.USER);
+
+  if (token && user) {
+    this.isAuthenticated.next(true);
+    this.user.next(JSON.parse(user));
+  }
 }
 
 	async loginDev(email: string, password: string) {
@@ -216,19 +235,16 @@ async authenticationWithToken() {
 		return this.currentUser;
 	}
 
-async refresh() {
-  try {
-    const user = this.auth.currentUser;
-    if (!user) {
-      this.logout();
-      return;
-    }
-    await user.getIdToken(true);
-    await this.authenticationWithToken();
-  } catch (e) {
-    this.logout();
-  }
-}
+	async refresh() {
+		const token = this.localStorageService.getItem(LOCAL_STORAGE.TOKEM);
+		const user = this.localStorageService.getItem(LOCAL_STORAGE.USER);
+		if (!token || !user) {
+			this.logout();
+			return;
+		}
+		this.isAuthenticated.next(true);
+		this.user.next(JSON.parse(user));
+	}
 
 	logout() {
 		this.localStorageService.removeItem(LOCAL_STORAGE.USER);
@@ -249,8 +265,8 @@ async refresh() {
 	}
 
 	async signInWithCustomToken(token: string) {
-  return signInWithCustomToken(this.auth, token);
-}
+		return signInWithCustomToken(this.auth, token);
+	}
 
 	private checkAndRedirect() {
 		// Verificar se o usuário completou o questionário
