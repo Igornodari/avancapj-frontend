@@ -75,24 +75,29 @@ export class AuthService {
 		);
 	}
 
-	async authenticationWithToken() {
-		const idToken = await this.auth.currentUser?.getIdToken();
-		if (!idToken) {
-			this._snackBar.error('Acesso negado');
-			return;
-		}
-		return this._requestService.post(URI_PATH.CORE.AUTH.MAIN, { token: idToken }).subscribe({
-			next: res => {
-				this.setAuth(res);
-				this.setUnit(res.user.unit);
-				this.checkAndRedirect();
-			},
-			error: e => {
-				this.logoutFirebase();
-				this._snackBar.error('Acesso negado');
-			},
-		});
-	}
+async authenticationWithToken() {
+  const idToken = await this.auth.currentUser?.getIdToken();
+  if (!idToken) {
+    this._snackBar.error('Acesso negado');
+    return;
+  }
+
+  return new Promise<void>((resolve, reject) => {
+    this._requestService.post(URI_PATH.CORE.AUTH.MAIN, { token: idToken }).subscribe({
+      next: (res) => {
+        this.setAuth(res);
+        this.setUnit(res.user.unit);
+        this.checkAndRedirect();
+        resolve();
+      },
+      error: (e) => {
+        this.logoutFirebase();
+        this._snackBar.error('Acesso negado');
+        reject(e);
+      },
+    });
+  });
+}
 
 	async loginDev(email: string, password: string) {
 		return this._requestService.post(URI_PATH.CORE.AUTH.DEV, { email, password }).subscribe({
@@ -146,8 +151,7 @@ export class AuthService {
 	) {
 		try {
 			console.log('Iniciando cadastro...', { email, firstName, lastName });
-			
-			// Criar usuário no Firebase Auth
+
 			const userCredential = await createUserWithEmailAndPassword(
 				this.auth,
 				email,
@@ -171,7 +175,7 @@ export class AuthService {
 			return userCredential;
 		} catch (error: any) {
 			console.error('Erro no cadastro:', error);
-			
+
 			if (error.code === 'auth/email-already-in-use') {
 				this._snackBar.error('Este email já está cadastrado!');
 			} else if (error.code === 'auth/weak-password') {
@@ -212,24 +216,19 @@ export class AuthService {
 		return this.currentUser;
 	}
 
-	refresh() {
-		return this._requestService
-			.post(URI_PATH.CORE.AUTH.REFRESH, { refreshToken: this.token })
-			.subscribe({
-				next: res => {
-					this.setAuth(res);
-					this.signInWithCustomToken(res.firebaseToken);
-					let unit = res.user.unit;
-					if (unit?.name == 'Matriz') {
-						const unitStorage = this.localStorageService.getItem(LOCAL_STORAGE.UNIT);
-						if (unitStorage) {
-							unit = JSON.parse(unitStorage);
-						}
-					}
-					this.setUnit(unit);
-				},
-			});
-	}
+async refresh() {
+  try {
+    const user = this.auth.currentUser;
+    if (!user) {
+      this.logout();
+      return;
+    }
+    await user.getIdToken(true);
+    await this.authenticationWithToken();
+  } catch (e) {
+    this.logout();
+  }
+}
 
 	logout() {
 		this.localStorageService.removeItem(LOCAL_STORAGE.USER);
@@ -249,18 +248,9 @@ export class AuthService {
 			});
 	}
 
-	signInWithCustomToken(token: string) {
-		signInWithCustomToken(this.auth, token)
-			.then(userCredential => {
-				const user = userCredential.user;
-			})
-			.catch(error => {
-				const errorCode = error.code;
-				const errorMessage = error.message;
-				console.log(error);
-				// ...
-			});
-	}
+	async signInWithCustomToken(token: string) {
+  return signInWithCustomToken(this.auth, token);
+}
 
 	private checkAndRedirect() {
 		// Verificar se o usuário completou o questionário

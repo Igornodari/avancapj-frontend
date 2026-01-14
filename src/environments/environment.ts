@@ -4,7 +4,6 @@ export const environment = {
 	version: '0.0.1',
 	envName: 'development',
 
-	// API Backend Local
 	API: 'http://localhost:3000/api/',
 
 	SHARED: '',
@@ -12,14 +11,13 @@ export const environment = {
 	push: { vapidKey: 'YOUR_WEB_PUSH_VAPID_KEY' },
 	bucketUrl: '',
 
-	// Firebase Development
 	firebase: {
-		apiKey: 'AIzaSyBh9BFagm01LAQbRy3UStG7BKOxQqAD5Ms',
-		authDomain: 'avancapj-d2395.firebaseapp.com',
-		projectId: 'avancapj-d2395',
-		storageBucket: 'avancapj-d2395.firebasestorage.app',
-		messagingSenderId: '936844226111',
-		appId: '1:936844226111:web:380e14a6701949336a128a',
-		measurementId: 'G-S09XWGG17S',
+		apiKey: 'AIzaSyCnXn2b0LLcU_TfnhSct8LipDyqd7CudEo',
+		authDomain: 'avan-8da0a.firebaseapp.com',
+		projectId: 'avan-8da0a',
+		storageBucket: 'avan-8da0a.firebasestorage.app',
+		messagingSenderId: '403015638200',
+		appId: '1:403015638200:web:79645e6739d0f8adcde84d',
+		measurementId: 'G-LHEJEJFNDN',
 	},
 };
