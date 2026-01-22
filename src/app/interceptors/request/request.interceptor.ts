@@ -1,30 +1,38 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
-	HttpRequest,
-	HttpHandler,
-	HttpEvent,
-	HttpInterceptor,
-	HttpHeaders,
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HttpHeaders,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
+import { Observable, from, switchMap } from 'rxjs';
+import { Auth } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
-	constructor(protected readonly _router: Router, private authService: AuthService) {}
+  private auth = inject(Auth);
 
-	intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-		const newHeaders = new HttpHeaders({
-			Authorization: `Bearer ${this.authService.token}`,
-			Accept: '*/*',
-			'Platform-Version': environment.version,
-			'Platform-Origin': 'dashboard',
-		});
-		const secureReq = request.clone({
-			headers: newHeaders,
-		});
-		return next.handle(secureReq);
-	}
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    return from(this.auth.currentUser?.getIdToken() ?? Promise.resolve(null)).pipe(
+      switchMap((idToken) => {
+        const headersObj: Record<string, string> = {
+          Accept: '*/*',
+          'Platform-Version': environment.version,
+          'Platform-Origin': 'dashboard',
+        };
+
+        if (idToken) {
+          headersObj['Authorization'] = `Bearer ${idToken}`;
+        }
+
+        const secureReq = request.clone({
+          headers: new HttpHeaders(headersObj),
+        });
+
+        return next.handle(secureReq);
+      })
+    );
+  }
 }
